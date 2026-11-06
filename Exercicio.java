@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -11,6 +12,7 @@ public class Exercicio {
     static JLabel labelValor = new JLabel("0", SwingConstants.RIGHT);
     // valor usado nas operações
     static double valorCalculado = 0;
+    static String operacaoAtual = "";
 
    public static JPanel montaBotoes()  {
         // cria o painel da calculadora
@@ -35,8 +37,6 @@ public class Exercicio {
                 botao.setFocusPainted(false);
                 
                 botao.addActionListener(e -> {
-                    System.out.println("botão apertado: " + botao.getText());
-
                     novoClique(botao.getText());
                 });
 
@@ -67,18 +67,43 @@ public class Exercicio {
     }
 
     public static void novaOperacao(String operacao) {
-        
-        double resultado = 0;
+        try {
+            double valorAtual = Double.parseDouble(labelValor.getText());
 
+            if(valorAtual == 0 && operacao == "/") throw new Exception("Não pode dividir por 0!");
 
-        // exibe o resultado
-        labelValor.setText(String.valueOf(resultado));
+            if(valorAtual != 0){
+                switch(operacaoAtual) {
+                    case "+":
+                        valorCalculado += valorAtual;
+                        break;
+                    case "-":
+                        valorCalculado -= valorAtual;
+                        break;
+                    case "X":
+                        valorCalculado *= valorAtual;
+                        break;
+                    case "/":
+                        valorCalculado /= valorAtual;
+                        break;
+                    default:
+                        valorCalculado = valorAtual;
+                        break;
+                }
+            } 
+            
+            operacaoAtual = operacao;
+            labelValor.setText("0");
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(labelValor, e.getMessage());
+        }
     }
 
     // calcula o resultado final
     public static void calcResultado() {
         try {
-            
+            novaOperacao(operacaoAtual);
+            labelValor.setText(String.valueOf(valorCalculado));
         } catch(Exception e) {
             System.out.println("Erro: " + e.getMessage());
         }
@@ -92,6 +117,7 @@ public class Exercicio {
                 valorCalculado = 0;
                 break;
             case "=":
+                calcResultado();
                 break;
             case "+":
                 novaOperacao("+");
@@ -106,7 +132,7 @@ public class Exercicio {
                 novaOperacao("/");
                 break;
             default:
-                if(labelValor.getText() == "0") {
+                if((labelValor.getText() == "0" || labelValor.getText() == "0.0") && botao != ".") {
                     labelValor.setText(botao);
                 } else {
                     labelValor.setText(labelValor.getText() + botao);
