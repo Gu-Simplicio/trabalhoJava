@@ -20,9 +20,9 @@ public class Exercicio {
         painelCalculadora.setLayout(new GridLayout(5, 4, 4, 4)); // o layout terá 5 linhas, 4 colunas e 5px de distanciamento
 
         String[] botoesCalculadora = {
-            "C", "/", "X", "-",
-            "7", "8", "9", "+",
-            "4", "5", "6", " ",
+            "C", "^", "/", "X",
+            "7", "8", "9", "-",
+            "4", "5", "6", "+",
             "1", "2", "3", "=",
             " ", "0", ".", " "
         };
@@ -86,6 +86,9 @@ public class Exercicio {
                     case "/":
                         valorCalculado /= valorAtual;
                         break;
+                    case "^":
+                        valorCalculado = Math.pow(valorCalculado, valorAtual);
+                        break;
                     default:
                         valorCalculado = valorAtual;
                         break;
@@ -130,6 +133,9 @@ public class Exercicio {
                 break;
             case "/":
                 novaOperacao("/");
+                break;
+            case "^":
+                novaOperacao("^");
                 break;
             default:
                 if((labelValor.getText() == "0" || labelValor.getText() == "0.0") && botao != ".") {
