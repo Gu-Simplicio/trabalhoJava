@@ -72,6 +72,8 @@ public class Exercicio {
 
             if(valorAtual == 0 && operacao == "/") throw new Exception("Não pode dividir por 0!");
 
+            System.out.println("Valor na label: " + valorAtual);
+            System.out.println("Valor calculado antes: " + valorCalculado);
             if(valorAtual != 0){
                 switch(operacaoAtual) {
                     case "+":
@@ -81,6 +83,7 @@ public class Exercicio {
                         valorCalculado -= valorAtual;
                         break;
                     case "X":
+                        System.out.println("Teste");
                         valorCalculado *= valorAtual;
                         break;
                     case "/":
@@ -94,8 +97,11 @@ public class Exercicio {
                         break;
                 }
             } 
+            System.out.println("Valor calculado depois: " + valorCalculado);
             
+            System.out.println("Operação antes: " + operacaoAtual);
             operacaoAtual = operacao;
+            System.out.println("Operação depois: " + operacaoAtual); 
             labelValor.setText("0");
         } catch(Exception e) {
             JOptionPane.showMessageDialog(labelValor, e.getMessage());
@@ -105,7 +111,7 @@ public class Exercicio {
     // calcula o resultado final
     public static void calcResultado() {
         try {
-            novaOperacao(operacaoAtual);
+            novaOperacao("=");
             labelValor.setText(String.valueOf(valorCalculado));
         } catch(Exception e) {
             System.out.println("Erro: " + e.getMessage());
@@ -129,7 +135,7 @@ public class Exercicio {
                 novaOperacao("-");
                 break;
             case "X":
-                novaOperacao("*");
+                novaOperacao("X");
                 break;
             case "/":
                 novaOperacao("/");
